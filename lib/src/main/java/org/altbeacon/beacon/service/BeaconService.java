@@ -24,8 +24,8 @@
 package org.altbeacon.beacon.service;
 
 
-import android.Manifest;
 import android.app.AlarmManager;
+import android.app.InvalidForegroundServiceTypeException;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -51,8 +51,6 @@ import org.altbeacon.beacon.BeaconManager;
 import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.BuildConfig;
 import org.altbeacon.beacon.Region;
-import org.altbeacon.beacon.distance.DistanceCalculator;
-import org.altbeacon.beacon.distance.ModelSpecificDistanceCalculator;
 import org.altbeacon.beacon.logging.LogManager;
 import org.altbeacon.beacon.service.scanner.CycledLeScanCallback;
 import org.altbeacon.beacon.startup.StartupBroadcastReceiver;
@@ -278,7 +276,13 @@ public class BeaconService extends Service {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             try {
                 LogManager.d(TAG, "Upgrading service to foreground service with notificationId" + notificationId);
-                this.startForeground(notificationId, notification);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    this.startForeground(notificationId, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
+                }
+                else {
+                    this.startForeground(notificationId, notification);
+                }
+                LogManager.d(TAG, "Called startForeground successfully");
             }
             catch (SecurityException exception) {
                 // https://issuetracker.google.com/issues/294408576
