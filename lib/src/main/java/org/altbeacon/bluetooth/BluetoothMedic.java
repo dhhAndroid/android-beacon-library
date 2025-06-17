@@ -483,7 +483,7 @@ public class BluetoothMedic {
         builder.setRequiresCharging(false);
         builder.setRequiresDeviceIdle(false);
         builder.setPeriodic(900000L); // 900 secs is 15 minutes -- the minimum time on Android
-        builder.setPersisted(true);
+//        builder.setPersisted(true);
         PersistableBundle bundle = new PersistableBundle();
         bundle.putInt("test_type", this.mTestType);
         builder.setExtras(bundle);
