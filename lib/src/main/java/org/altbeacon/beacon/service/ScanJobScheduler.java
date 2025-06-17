@@ -141,7 +141,7 @@ public class ScanJobScheduler {
 
     public void scheduleForIntentScanStrategy(Context context) {
         JobInfo.Builder periodicJobBuilder = new JobInfo.Builder(ScanJob.getPeriodicScanJobId(context), new ComponentName(context, ScanJob.class))
-                .setPersisted(true) // This makes it restart after reboot
+//                .setPersisted(true) // This makes it restart after reboot
                 .setExtras(new PersistableBundle());
 
         long fifteenMinutesMillis = 15*60*1000;
@@ -198,7 +198,7 @@ public class ScanJobScheduler {
                     // we schedule it for that specific time.
                     LogManager.d(TAG, "Scheduling immediate ScanJob to run in "+millisToNextJobStart+" millis");
                     JobInfo immediateJob = new JobInfo.Builder(ScanJob.getImmediateScanJobId(context), new ComponentName(context, ScanJob.class))
-                            .setPersisted(true) // This makes it restart after reboot
+//                            .setPersisted(true) // This makes it restart after reboot
                             .setExtras(new PersistableBundle())
                             .setMinimumLatency(millisToNextJobStart)
                             .setOverrideDeadline(millisToNextJobStart).build();
@@ -219,7 +219,7 @@ public class ScanJobScheduler {
             }
 
             JobInfo.Builder periodicJobBuilder = new JobInfo.Builder(ScanJob.getPeriodicScanJobId(context), new ComponentName(context, ScanJob.class))
-                    .setPersisted(true) // This makes it restart after reboot
+//                    .setPersisted(true) // This makes it restart after reboot
                     .setExtras(new PersistableBundle());
 
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
